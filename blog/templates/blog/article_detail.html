@@ -1,0 +1,32 @@
+
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<div class="article">
+    <h2>{{ article.title }}</h2>
+
+    <p class="meta">
+        Рубрика: {{ article.category.name }} |
+        Автор: {{ article.author.username }}
+    </p>
+
+    <p>{{ article.content|linebreaks }}</p>
+
+    <h3>Теги</h3>
+    {% for tag in article.tags.all %}
+        <span>{{ tag.name }}</span>
+    {% empty %}
+        <p>Тегов нет.</p>
+    {% endfor %}
+
+    <p class="meta">
+        Дата создания: {{ article.created_at }}<br>
+        Дата обновления: {{ article.updated_at }}<br>
+        Просмотров: {{ article.view_count }}
+    </p>
+
+    <a href="{% url 'article_list' %}">← Назад к статьям</a>
+</div>
+{% endblock %}

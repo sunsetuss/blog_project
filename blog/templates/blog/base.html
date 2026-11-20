@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Блог с рубриками{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+            background: #f5f5f5;
+        }
+        header, .article {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        a {
+            color: #2457a7;
+            text-decoration: none;
+        }
+        input, select, button {
+            padding: 9px;
+            margin: 5px;
+        }
+        .meta {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'article_list' %}">Блог с рубриками</a></h1>
+        <a href="/admin/">Админ-панель</a>
+    </header>
+
+    {% block content %}{% endblock %}
+</body>
+</html>

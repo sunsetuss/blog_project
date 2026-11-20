@@ -1,0 +1,74 @@
+
+{% extends 'blog/base.html' %}
+
+{% block title %}Главная — Блог{% endblock %}
+
+{% block content %}
+<h2>Последние статьи</h2>
+
+<form method="get">
+    <input
+        type="text"
+        name="q"
+        placeholder="Поиск по заголовку"
+        value="{{ search }}"
+    >
+
+    <select name="category">
+        <option value="">Все рубрики</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}"
+                {% if selected_category == category.id|stringformat:"s" %}
+                    selected
+                {% endif %}>
+                {{ category.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Найти</button>
+</form>
+
+{% for article in page_obj %}
+    <div class="article">
+        <h2>
+            <a href="{% url 'article_detail' article.pk %}">
+                {{ article.title }}
+            </a>
+        </h2>
+
+        <p>{{ article.content|truncatewords:30 }}</p>
+
+        <p class="meta">
+            Рубрика: {{ article.category.name }} |
+            Автор: {{ article.author.username }} |
+            Просмотров: {{ article.view_count }}
+        </p>
+
+        <p>
+            Теги:
+            {% for tag in article.tags.all %}
+                {{ tag.name }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                Нет тегов
+            {% endfor %}
+        </p>
+    </div>
+{% empty %}
+    <p>Статей пока нет.</p>
+{% endfor %}
+
+<div>
+    {% if page_obj.has_previous %}
+        <a href="?page=1&q={{ search }}&category={{ selected_category }}">Первая</a>
+        <a href="?page={{ page_obj.previous_page_number }}&q={{ search }}&category={{ selected_category }}">Назад</a>
+    {% endif %}
+
+    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&q={{ search }}&category={{ selected_category }}">Вперёд</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}&q={{ search }}&category={{ selected_category }}">Последняя</a>
+    {% endif %}
+</div>
+{% endblock %}
