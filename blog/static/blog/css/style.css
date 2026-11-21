@@ -69,3 +69,44 @@ button:hover {
 .pagination a {
     margin: 0 5px;
 }
+
+
+header {
+    display: block;
+    padding: 20px;
+}
+
+header h1 {
+    margin: 0 0 16px 0;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.navigation a {
+    white-space: nowrap;
+}
+
+.navigation form {
+    margin: 0;
+}
+
+.navigation button {
+    margin: 0;
+}
+
+.username {
+    color: #666;
+    font-size: 14px;
+    padding-left: 5px;
+}
+
+@media (max-width: 600px) {
+    .navigation {
+        gap: 10px;
+    }
+}

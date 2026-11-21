@@ -1,0 +1,67 @@
+
+{% extends 'blog/base.html' %}
+
+{% block title %}Мои статьи{% endblock %}
+
+{% block content %}
+
+<h2>Мои статьи</h2>
+
+<p>
+    <a href="{% url 'article_create' %}">
+        + Создать статью
+    </a>
+</p>
+
+{% for article in page_obj %}
+
+    <div class="article">
+
+        <h3>{{ article.title }}</h3>
+
+        <p class="meta">
+            Рубрика: {{ article.category.name }} |
+            Статус: {{ article.get_status_display }} |
+            Просмотров: {{ article.view_count }}
+        </p>
+
+        <a href="{% url 'article_update' article.pk %}">
+            Редактировать
+        </a>
+
+        |
+
+        <a href="{% url 'article_delete' article.pk %}">
+            Удалить
+        </a>
+
+        {% if article.status == 'published' %}
+            |
+            <a href="{% url 'article_detail' article.pk %}">
+                Просмотреть
+            </a>
+        {% endif %}
+
+    </div>
+
+{% empty %}
+
+    <p>У тебя пока нет статей.</p>
+
+{% endfor %}
+
+{% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">
+        Назад
+    </a>
+{% endif %}
+
+Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+
+{% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">
+        Вперёд
+    </a>
+{% endif %}
+
+{% endblock %}
