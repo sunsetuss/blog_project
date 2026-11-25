@@ -110,3 +110,57 @@ header h1 {
         gap: 10px;
     }
 }
+
+.tag-cloud {
+    margin: 25px 0;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+}
+
+.tag-cloud h3 {
+    margin: 0 0 20px;
+}
+
+.tag-cloud__items {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    align-items: center;
+    gap: 10px;
+}
+
+.tag-cloud .tag-cloud__item {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    padding: 8px 4px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #2563a8;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.tag-cloud .tag-cloud__item:hover {
+    background: #dbeafe;
+}
+
+.tag-cloud .tag-cloud__item small {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 400;
+}
+
+.tag-size-12 { font-size: 12px; }
+.tag-size-13 { font-size: 13px; }
+.tag-size-14 { font-size: 14px; }
+.tag-size-15 { font-size: 15px; }
+.tag-size-16 { font-size: 16px; }
+.tag-size-17 { font-size: 17px; }

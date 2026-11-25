@@ -1,11 +1,12 @@
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.db.models import F
+from django.db.models import Count, F, Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Article, Category
+from .models import Article, Category, Tag
 from .forms import ArticleForm
 
 
@@ -27,6 +28,30 @@ def article_list(request):
 
     categories = Category.objects.all()
 
+    tag_cloud = list(
+        Tag.objects.annotate(
+            articles_count=Count(
+                'articles',
+                filter=Q(articles__status='published'),
+                distinct=True
+            )
+        ).filter(
+            articles_count__gt=0
+        ).order_by('-articles_count', 'name')[:40]
+    )
+
+    font_sizes = [12, 13, 14, 15, 16, 17]
+
+    total_tags = len(tag_cloud)
+
+    for index, tag in enumerate(tag_cloud):
+        level = (
+            index * (len(font_sizes) - 1)
+            // max(1, total_tags - 1)
+        )
+
+        tag.font_size = font_sizes[-1 - level]
+
     paginator = Paginator(articles, 10)
     page_obj = paginator.get_page(request.GET.get('page'))
 
@@ -35,6 +60,7 @@ def article_list(request):
         'categories': categories,
         'search': search,
         'selected_category': category_id,
+        'tag_cloud': tag_cloud,
     })
 
 
@@ -160,5 +186,6 @@ def article_delete(request, pk):
     return render(request, 'blog/article_confirm_delete.html', {
         'article': article,
     })
+
 
 LOGIN_URL = '/admin/login/'

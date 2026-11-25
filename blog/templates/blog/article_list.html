@@ -28,6 +28,21 @@
     <button type="submit">Найти</button>
 </form>
 
+<section class="tag-cloud">
+    <h3>Облако тегов</h3>
+
+    <div class="tag-cloud__items">
+        {% for tag in tag_cloud %}
+            <span class="tag-cloud__item tag-size-{{ tag.font_size }}">
+                {{ tag.name }}
+                <small>({{ tag.articles_count }})</small>
+            </span>
+        {% empty %}
+            <p>Теги пока отсутствуют.</p>
+        {% endfor %}
+    </div>
+</section>
+
 {% for article in page_obj %}
     <div class="article">
         <h2>
